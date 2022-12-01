@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../models/local_auth_api.dart';
+
 class AuthProvider extends ChangeNotifier {
   final TextEditingController _pinCodeController = TextEditingController();
   TextEditingController get pinCodeController => _pinCodeController;
@@ -23,6 +25,11 @@ class AuthProvider extends ChangeNotifier {
   void openKeyboard() {
     _logoSize = true;
     notifyListeners();
+  }
+
+  bool isAuthenticated = false;
+  void callFingerPrint() async {
+    isAuthenticated = await LocalAuthApi.authenticate();
   }
 
   void editPincodeController(String num) {
