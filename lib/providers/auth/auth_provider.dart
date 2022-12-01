@@ -30,6 +30,7 @@ class AuthProvider extends ChangeNotifier {
   bool isAuthenticated = false;
   void callFingerPrint() async {
     isAuthenticated = await LocalAuthApi.authenticate();
+    notifyListeners();
   }
 
   void editPincodeController(String num) {
