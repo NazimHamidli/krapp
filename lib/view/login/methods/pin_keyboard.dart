@@ -58,7 +58,7 @@ Row pinKeyboard(BuildContext context, AuthProvider state) {
                   final isAuthenticated = await LocalAuthApi.authenticate();
                   if (isAuthenticated) {
                     //go new page
-
+                    print(true);
                   }
                 },
                 icon: Icon(
