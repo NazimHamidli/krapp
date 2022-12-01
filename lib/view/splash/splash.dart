@@ -1,13 +1,11 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:krapp/utils/size.dart';
-import 'package:krapp/view/splash/methods/enter_pin_widget.dart';
-import 'package:krapp/view/splash/methods/krapp_app_text.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth/auth_provider.dart';
 import 'methods/animation_logo.dart';
+import 'methods/enter_pin_widget.dart';
+import 'methods/krapp_app_text.dart';
 
 class Splash extends StatelessWidget {
   const Splash({super.key});
@@ -15,9 +13,8 @@ class Splash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
+      create: (context) => AuthProvider()..initState(),
       child: Consumer<AuthProvider>(builder: (context, state, child) {
-        state.initState();
         return Scaffold(
             body: Container(
           padding: EdgeInsets.symmetric(vertical: getWidth(40, context)),
@@ -37,12 +34,12 @@ class Splash extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               animationLogo(state, context),
-              state.size
+              state.logoSize
                   ? state.hasToken
                       ? const SizedBox() //login page
                       : enterPin(context, state) //pin code page
                   : const SizedBox(),
-              !state.align ? krappAppText() : const SizedBox()
+              !state.isLogoTop ? krappAppText() : const SizedBox()
             ],
           ),
         ));

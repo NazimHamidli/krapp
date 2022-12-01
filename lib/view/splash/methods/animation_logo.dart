@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:krapp/utils/size.dart';
 
 import '../../../providers/auth/auth_provider.dart';
-import '../../../utils/size.dart';
 
 AnimatedAlign animationLogo(AuthProvider state, BuildContext context) {
   return AnimatedAlign(
-    alignment: state.align ? Alignment.topCenter : Alignment.center,
-    duration: const Duration(seconds: 2),
-    curve: Curves.fastOutSlowIn,
-    child: AnimatedSize(
-      curve: Curves.fastOutSlowIn,
-      duration: const Duration(seconds: 2),
+    onEnd: state.openKeyboard,
+    alignment: state.isLogoTop ? Alignment.topCenter : Alignment.center,
+    duration: const Duration(milliseconds: 500),
+    curve: Curves.easeIn,
+    child: AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
+      width: state.isLogoTop ? getWidth(150, context) : getWidth(300, context),
+      height: state.isLogoTop ? getWidth(150, context) : getWidth(300, context),
       child: Image.asset(
         'assets/images/krapp_logo.png',
-        height: state.size ? getWidth(150, context) : getWidth(300, context),
+        fit: BoxFit.contain,
       ),
     ),
   );

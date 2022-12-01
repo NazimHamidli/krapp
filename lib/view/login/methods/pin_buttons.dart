@@ -13,7 +13,7 @@ Material pinButtons(BuildContext context, AuthProvider state, String text) {
       margin: EdgeInsets.all(getWidth(7, context)),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white70),
-        color: Color.fromRGBO(205, 243, 249, 0.16),
+        color: const Color.fromRGBO(205, 243, 249, 0.16),
         shape: BoxShape.circle,
       ),
       child: InkWell(

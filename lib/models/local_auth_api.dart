@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 
@@ -7,7 +9,7 @@ class LocalAuthApi {
     try {
       return await _auth.canCheckBiometrics;
     } on PlatformException catch (e) {
-      print(e);
+      log(e.toString());
       return false;
     }
   }
@@ -16,7 +18,7 @@ class LocalAuthApi {
     try {
       return await _auth.getAvailableBiometrics();
     } on PlatformException catch (e) {
-      print(e);
+      log(e.toString());
       return <BiometricType>[];
     }
   }
@@ -32,7 +34,7 @@ class LocalAuthApi {
           localizedReason: 'Scan Fingerprint to Authenticate',
           options: const AuthenticationOptions(
               biometricOnly: true, useErrorDialogs: true, stickyAuth: true));
-    } on PlatformException catch (e) {
+    } catch (e) {
       return false;
     }
   }
