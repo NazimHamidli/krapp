@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:local_auth/local_auth.dart';
 
 import '../../models/local_auth_api.dart';
 
 class AuthProvider extends ChangeNotifier {
   final TextEditingController _pinCodeController = TextEditingController();
   TextEditingController get pinCodeController => _pinCodeController;
+  final LocalAuthentication auth = LocalAuthentication();
+  BiometricsSupportState biometricsSupportState =
+      BiometricsSupportState.unknown;
+  bool isAuthenticated = false;
+
   final box = GetStorage();
   bool _isLogoTop = false;
   bool _logoSize = false;
@@ -24,10 +30,19 @@ class AuthProvider extends ChangeNotifier {
 
   void openKeyboard() {
     _logoSize = true;
+    checkFingerPrint();
     notifyListeners();
   }
 
-  bool isAuthenticated = false;
+  void checkFingerPrint() async {
+    bool isSupported = await auth.isDeviceSupported();
+    biometricsSupportState = isSupported
+        ? BiometricsSupportState.supported
+        : BiometricsSupportState.unsupported;
+    if (isSupported) callFingerPrint();
+    notifyListeners();
+  }
+
   void callFingerPrint() async {
     isAuthenticated = await LocalAuthApi.authenticate();
     notifyListeners();
@@ -47,4 +62,10 @@ class AuthProvider extends ChangeNotifier {
         : null;
     notifyListeners();
   }
+}
+
+enum BiometricsSupportState {
+  unknown,
+  supported,
+  unsupported,
 }

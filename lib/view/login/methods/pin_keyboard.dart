@@ -5,7 +5,6 @@ import '../../../providers/auth/auth_provider.dart';
 import '../../../utils/size.dart';
 
 Row pinKeyboard(BuildContext context, AuthProvider state) {
-  state.callFingerPrint();
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -49,15 +48,17 @@ Row pinKeyboard(BuildContext context, AuthProvider state) {
           pinButtons(context, state, '3'),
           pinButtons(context, state, '6'),
           pinButtons(context, state, '9'),
-          state.isAuthenticated
+          state.biometricsSupportState == BiometricsSupportState.supported
               ? Container(
                   width: getWidth(90, context),
                   height: getWidth(80, context),
                   margin: EdgeInsets.only(bottom: getWidth(15, context)),
                   child: IconButton(
                       onPressed: () async {
+                        state.callFingerPrint();
                         if (state.isAuthenticated) {
                           //go new page
+                          //  print("authenticated");
                         }
                       },
                       icon: Icon(
