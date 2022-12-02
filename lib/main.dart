@@ -22,7 +22,7 @@ class Krapp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Montserrat',
       ),
-      initialRoute: '/',
+      initialRoute: '/home',
       routes: routes,
     );
   }
