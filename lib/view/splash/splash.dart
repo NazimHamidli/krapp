@@ -3,6 +3,7 @@ import 'package:krapp/utils/size.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth/auth_provider.dart';
+import '../login/login_page.dart';
 import 'methods/animation_logo.dart';
 import 'methods/enter_pin_widget.dart';
 import 'methods/krapp_app_text.dart';
@@ -35,8 +36,8 @@ class Splash extends StatelessWidget {
             children: [
               animationLogo(state, context),
               state.logoSize
-                  ? state.hasToken
-                      ? const SizedBox() //login page
+                  ? !state.hasToken
+                      ? loginPage(context) //login page
                       : enterPin(context, state) //pin code page
                   : const SizedBox(),
               !state.isLogoTop ? krappAppText() : const SizedBox()
