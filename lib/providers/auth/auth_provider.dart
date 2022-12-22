@@ -3,6 +3,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:local_auth/local_auth.dart';
 
 import '../../models/local_auth_api.dart';
+import '../../utils/enums.dart';
+import '../../view/login-signup/forgotpass/forgotpass.dart';
+import '../../view/login-signup/login_page.dart';
+import '../../view/login-signup/signup_page.dart';
 
 class AuthProvider extends ChangeNotifier {
   final TextEditingController _pinCodeController = TextEditingController();
@@ -11,8 +15,6 @@ class AuthProvider extends ChangeNotifier {
   BiometricsSupportState biometricsSupportState =
       BiometricsSupportState.unknown;
   bool isAuthenticated = false;
-
-  final box = GetStorage();
   bool _isLogoTop = false;
   bool _logoSize = false;
   final bool _hasToken = false;
@@ -20,26 +22,74 @@ class AuthProvider extends ChangeNotifier {
   bool get isLogoTop => _isLogoTop;
   bool get logoSize => _logoSize;
 
+  final box = GetStorage();
+
+  //qeydiyyat sehifesi
+  final List<String> registerFieldsName = [
+    'Ad *',
+    'Soyad *',
+    'FİN kod *',
+    'e-poçt *',
+  ];
+  bool _isFaceIdPermission = false;
+  bool get isFaceIdPermission => _isFaceIdPermission;
+
+  bool _isUsingRulesPermission = false;
+  bool get isUsingRulesPermission => _isUsingRulesPermission;
+
+  void changePermission(bool value) {
+    if (value) {
+      _isFaceIdPermission = !_isFaceIdPermission;
+    } else {
+      _isUsingRulesPermission = !_isUsingRulesPermission;
+    }
+
+    notifyListeners();
+  }
+
+//----------------------------------------------\\
+
+//login, qeydiyyat, forgot statuslari
+  List<String> status = ['login', 'register', 'forgot'];
+  late String _curretntStatus = status[0];
+  String get curretntStatus => _curretntStatus;
+  void changeStatusValue(int index) {
+    index <= 2 ? _curretntStatus = status[index] : _curretntStatus = status[0];
+    notifyListeners();
+  }
+
+  changeWidgetsForStatus(BuildContext context) {
+    if (_curretntStatus == 'login') {
+      return loginPage(context);
+    } else if (_curretntStatus == 'register') {
+      return signUpPage(context);
+    }
+    return forgotPass(context);
+  }
+//----------------------------------------------\\
+
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
       _isLogoTop = true;
-
       notifyListeners();
     });
   }
 
-  void openKeyboard() {
-    _logoSize = true;
-    checkFingerPrint();
-    notifyListeners();
-  }
-
+//biometrik ucun funksiya
   void checkFingerPrint() async {
     bool isSupported = await auth.isDeviceSupported();
     biometricsSupportState = isSupported
         ? BiometricsSupportState.supported
         : BiometricsSupportState.unsupported;
     if (isSupported) callFingerPrint();
+    notifyListeners();
+  }
+//----------------------------------------------\\
+
+// fin kod keyboari ucun funksiyalar
+  void openKeyboard() {
+    _logoSize = true;
+    checkFingerPrint();
     notifyListeners();
   }
 
@@ -62,10 +112,5 @@ class AuthProvider extends ChangeNotifier {
         : null;
     notifyListeners();
   }
-}
-
-enum BiometricsSupportState {
-  unknown,
-  supported,
-  unsupported,
+  //----------------------------------------------\\
 }

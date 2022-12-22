@@ -3,7 +3,7 @@ import 'package:krapp/utils/size.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth/auth_provider.dart';
-import '../login/login_page.dart';
+
 import 'methods/animation_logo.dart';
 import 'methods/enter_pin_widget.dart';
 import 'methods/krapp_app_text.dart';
@@ -18,7 +18,8 @@ class Splash extends StatelessWidget {
       child: Consumer<AuthProvider>(builder: (context, state, child) {
         return Scaffold(
             body: Container(
-          padding: EdgeInsets.symmetric(vertical: getWidth(40, context)),
+          padding: EdgeInsets.only(
+              top: getWidth(40, context), bottom: getWidth(20, context)),
           height: getHeight(812, context),
           width: getWidth(375, context),
           decoration: const BoxDecoration(
@@ -34,10 +35,12 @@ class Splash extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              animationLogo(state, context),
+              MediaQuery.of(context).viewInsets.bottom == 0
+                  ? animationLogo(state, context)
+                  : const SizedBox(),
               state.logoSize
                   ? !state.hasToken
-                      ? loginPage(context) //login page
+                      ? state.changeWidgetsForStatus(context) //login page
                       : enterPin(context, state) //pin code page
                   : const SizedBox(),
               !state.isLogoTop ? krappAppText() : const SizedBox()

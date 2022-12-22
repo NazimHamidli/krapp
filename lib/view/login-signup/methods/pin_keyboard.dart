@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:krapp/view/login/methods/pin_buttons.dart';
+import 'package:krapp/view/login-signup/methods/pin_buttons.dart';
 
 import '../../../providers/auth/auth_provider.dart';
+import '../../../utils/enums.dart';
 import '../../../utils/size.dart';
 
 Row pinKeyboard(BuildContext context, AuthProvider state) {

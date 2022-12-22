@@ -3,8 +3,8 @@ import 'package:krapp/view/splash/methods/confirm_button.dart';
 
 import '../../../providers/auth/auth_provider.dart';
 import '../../../utils/size.dart';
-import '../../login/methods/dots.dart';
-import '../../login/methods/pin_keyboard.dart';
+import '../../login-signup/methods/dots.dart';
+import '../../login-signup/methods/pin_keyboard.dart';
 
 Positioned enterPin(BuildContext context, AuthProvider state) {
   return Positioned(

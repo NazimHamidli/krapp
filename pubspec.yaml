@@ -23,6 +23,8 @@ dependencies:
   provider: ^6.0.4
   #bio auth
   local_auth: ^2.1.2
+  #pin code
+  pin_code_fields: ^7.4.0
   
 dev_dependencies:
   flutter_test:
